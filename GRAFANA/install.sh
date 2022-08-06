@@ -81,6 +81,15 @@ sudo systemctl enable prometheus
 clear
 sudo systemctl status prometheus
 echo
+echo
+echo "menambahkan target IP di prometheus/ jika mau menambahkan manual di /etc/prometheus/prometheus.yml...."
+echo
+sudo tee /etc/prometheus/prometheus.yml<<EOF
+- job_name: 'node_exporter_server_monitoring'
+    static_configs:
+      - targets: ['203.194.112.227:9100']
+EOF
+echo
 echo "Done..Access Grafana Dashboard using the server IP or hostname and port 9090"
 echo
 echo
