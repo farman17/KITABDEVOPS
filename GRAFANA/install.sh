@@ -81,7 +81,30 @@ sudo systemctl enable prometheus
 clear
 sudo systemctl status prometheus
 echo
-
+echo "Done..Access Grafana Dashboard using the server IP or hostname and port 9090"
+echo
+echo
+echo "***Install GRAFANA***"
+echo
+sudo apt update
+sudo apt-get install -y gnupg2 curl software-properties-common
+curl https://packages.grafana.com/gpg.key | sudo apt-key add -
+sudo add-apt-repository "deb https://packages.grafana.com/oss/deb stable main"
+sudo apt-get update
+echo
+echo
+echo "Instalasi dimulai......"
+echo
+sudo apt-get -y install grafana
+sudo systemctl enable --now grafana-server
+systemctl restart grafana-server.service
+echo
+clear
+echo "cek status grafana.."
+echo
+systemctl status grafana-server.service 
+echo
+echo "Done..Access Grafana Dashboard using the server IP or hostname and port 3000"
 echo
 exit 0
 else
