@@ -53,6 +53,7 @@ ExecStart=/usr/local/bin/node_exporter \
 WantedBy=multi-user.target
 EOF
 echo
+clear
 echo
 echo "Cek status node exporter"
 echo
@@ -62,6 +63,4 @@ systemctl enable node_exporter
 systemctl start node_exporter
 systemctl status node_exporter
 echo
-
-fi
 echo
