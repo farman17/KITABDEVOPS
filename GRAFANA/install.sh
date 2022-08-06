@@ -90,7 +90,7 @@ sudo tee /etc/prometheus/prometheus.yml<<EOF
       - targets: ['203.194.112.227:9100']
 EOF
 echo
-echo "Done..Access Grafana Dashboard using the server IP or hostname and port 9090"
+echo "Done..Access Prometheus Dashboard using the server IP or hostname and port 9090"
 echo
 echo
 echo "***Install GRAFANA***"
