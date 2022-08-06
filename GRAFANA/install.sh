@@ -30,8 +30,56 @@ echo
 sudo mv prometheus.yml /etc/prometheus/prometheus.yml
 sudo mv consoles/ console_libraries/ /etc/prometheus/
 cd $HOME
-echo "***SELESAI Install Prometehus, next install GRAFANA***"
 echo
+echo
+echo "Configuring Prometheus (server only)"
+echo
+sudo nano /etc/hosts
+echo
+echo "tee ke folder /etc/systemd/system/prometheus.service untuk manage Prometheus service with systemd"
+echo
+sudo tee /etc/systemd/system/prometheus.service<<EOF
+[Unit]
+Description=Prometheus
+Documentation=https://prometheus.io/docs/introduction/overview/
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=prometheus
+Group=prometheus
+ExecReload=/bin/kill -HUP \$MAINPID
+ExecStart=/usr/local/bin/prometheus \
+  --config.file=/etc/prometheus/prometheus.yml \
+  --storage.tsdb.path=/var/lib/prometheus \
+  --web.console.templates=/etc/prometheus/consoles \
+  --web.console.libraries=/etc/prometheus/console_libraries \
+  --web.listen-address=0.0.0.0:9090 \
+  --web.external-url=
+
+SyslogIdentifier=prometheus
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
+echo
+echo "edit file berikut, sesuaikan ip nya master di baris terakhir:"
+echo
+echo "Change directory permissions folder /etc/prometheus/---->"
+sudo chown -R prometheus:prometheus /etc/prometheus/
+sudo chmod -R 775 /etc/prometheus/
+sudo chown -R prometheus:prometheus /var/lib/prometheus/
+echo
+echo
+clear
+echo "cek status prometheus"
+sudo systemctl daemon-reload
+sudo systemctl start prometheus
+sudo systemctl enable prometheus
+clear
+sudo systemctl status prometheus
 echo
 
 echo
