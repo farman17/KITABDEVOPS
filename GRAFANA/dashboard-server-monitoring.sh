@@ -18,8 +18,7 @@ echo
 echo "Menambahkan file konfigurasi ke node_exporter.service"
 echo
 sudo tee /etc/systemd/system/node_exporter.service<<EOF
- ::tambahkan file berikut:
- [Unit]
+[Unit]
 Description=Node Exporter
 After=network.target
 
@@ -67,8 +66,6 @@ echo
 echo
 clear
 echo "Setting target untuk node yang ingin di monitoring di prometheus:"
-echo
-echo
 echo -n "masukkan IP Node yang ingin di pantau: ";
 read ipnode;
 echo
@@ -76,7 +73,7 @@ sed -i '$ a\ ' /etc/prometheus/prometheus.yml
 sed -i '$ a\  - job_name: Monitoring_server' /etc/prometheus/prometheus.yml
 sed -i '$ a\    static_configs:' /etc/prometheus/prometheus.yml 
 sed -i '$ a\      - targets: ['$ipnode:9100']' /etc/prometheus/prometheus.yml
-echo
 systemctl restart prometheus
-echo
 echo "SELESAI....."
+echo
+echo "Akses ke GRAFANA Dashboard lalu klik icon “+” dan klik import, setelah itu pada bagian import via grafana.com isi 11074 atau 1860, dimana ini adalah code untuk template monitoring serv"
