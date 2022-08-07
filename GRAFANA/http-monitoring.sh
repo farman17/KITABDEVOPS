@@ -8,10 +8,16 @@ curl -s https://api.github.com/repos/prometheus/blackbox_exporter/releases/lates
 tar xvzf blackbox_exporter-*.linux-amd64.tar.gz
 cd blackbox_exporter-*.linux-amd64
 sudo cp blackbox_exporter /usr/local/bin
+echo
+echo
+echo "Cek versi blackbox_Exporter:"
+echo
 blackbox_exporter --version
+echo
 sudo chown blackbox:blackbox /usr/local/bin/blackbox_exporter
 cd ~/blackbox_exporter-*.linux-amd64
 sudo mkdir -p /etc/blackbox
 sudo cp blackbox.yml /etc/blackbox
 sudo chown -R blackbox:blackbox /etc/blackbox/*
-
+echo
+echo "Install blackbox_Exporter Selessai..."
