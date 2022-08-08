@@ -13,3 +13,5 @@ docker ps
 echo
 echo
 echo "SELESAI....."
+
+sumber : https://www.linuxtechi.com/how-to-install-rancher-on-ubuntu/
