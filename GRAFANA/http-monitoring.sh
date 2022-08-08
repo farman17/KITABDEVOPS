@@ -85,7 +85,7 @@ echo
 read ipserverprometheus;
 sed -ie 's/jobname/'$jobname'/g' /etc/prometheus/prometheus.yml
 sed -ie 's/ippantau/'$ipordns'/g' /etc/prometheus/prometheus.yml
-sed -ie 's/ippantau/'$ipserverprometheus'/g' /etc/prometheus/prometheus.yml
+sed -ie 's/ipserverprometheus/'$ipserverprometheus'/g' /etc/prometheus/prometheus.yml
 
 sudo systemctl restart prometheus
 
