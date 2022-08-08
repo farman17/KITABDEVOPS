@@ -84,11 +84,11 @@ echo -n "masukkan IP Server tempat install Prometheus: ";
 echo
 read ipserverprometheus;
 sed -ie 's/jobname/'$jobname'/g' /etc/prometheus/prometheus.yml
-sed -ie 's/ippantau/'$ipordns'/g' /etc/prometheus/prometheus.yml
+sed -ie 's/ipordns/'$ippantau'/g' /etc/prometheus/prometheus.yml
 sed -ie 's/ipserverprometheus/'$ipserverprometheus'/g' /etc/prometheus/prometheus.yml
 
 sudo systemctl restart prometheus
 
 echo "SELESAI....."
 echo
-echo "Akses ke GRAFANA Dashboard lalu klik icon “+” dan klik import, setelah itu pada bagian import via grafana.com isi 7587, dimana ini adalah code untuk template monitoring web
+echo "Akses ke GRAFANA Dashboard lalu klik icon “+” dan klik import, setelah itu pada bagian import via grafana.com isi 7587, dimana ini adalah code untuk template monitoring web"
