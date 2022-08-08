@@ -54,26 +54,39 @@ echo "Cek status blackbox..."
 sudo systemctl status blackbox
 echo
 clear
-echo "Setting target untuk node yang ingin di monitoring di prometheus:"
-echo -n "masukkan IP Node yang ingin di pantau: ";
-read iptarget;
 echo
 sed -i '$ a\ ' /etc/prometheus/prometheus.yml
-sed -i '$ a\  - job_name: Monitoring_web' /etc/prometheus/prometheus.yml
+sed -i '$ a\  - job_name: jobname' /etc/prometheus/prometheus.yml
 sed -i '$ a\    metrics_path: /probe' /etc/prometheus/prometheus.yml
 sed -i '$ a\    params:' /etc/prometheus/prometheus.yml
 sed -i '$ a\      module: [http_2xx]' /etc/prometheus/prometheus.yml
 sed -i '$ a\    static_configs:' /etc/prometheus/prometheus.yml
 sed -i '$ a\      - targets:' /etc/prometheus/prometheus.yml
-sed -i '$ a\        - http://('$iptarget')' /etc/prometheus/prometheus.yml
+sed -i '$ a\        - http://ipordns' /etc/prometheus/prometheus.yml
 sed -i '$ a\    relabel_configs:' /etc/prometheus/prometheus.yml
 sed -i '$ a\      - source_labels: [__address__]' /etc/prometheus/prometheus.yml
 sed -i '$ a\        target_label: __param_target' /etc/prometheus/prometheus.yml
 sed -i '$ a\      - source_labels: [__param_target]' /etc/prometheus/prometheus.yml
 sed -i '$ a\        target_label: instance' /etc/prometheus/prometheus.yml
 sed -i '$ a\      - target_label: __address__' /etc/prometheus/prometheus.yml
-sed -i '$ a\        replacement: 203.194.112.227:9115' /etc/prometheus/prometheus.yml
+sed -i '$ a\        replacement: ipserverprometheus:9115' /etc/prometheus/prometheus.yml
 echo
+clear
+echo "***Setting target untuk node yang ingin di monitoring di prometheus:***"
+echo
+echo -n "masukkan Jobname : ";
+read jobname;
+echo
+echo -n "masukkan IP Node yang ingin di pantau: ";
+read ippantau;
+echo
+echo -n "masukkan IP Server tempat install Prometheus: ";
+echo
+read ipserverprometheus;
+sed -ie 's/jobname/'$jobname'/g' /etc/prometheus/prometheus.yml
+sed -ie 's/ippantau/'$ipordns'/g' /etc/prometheus/prometheus.yml
+sed -ie 's/ippantau/'$ipserverprometheus'/g' /etc/prometheus/prometheus.yml
+
 sudo systemctl restart prometheus
 
 echo "SELESAI....."
