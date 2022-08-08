@@ -84,3 +84,4 @@ systemctl restart prometheus
 echo "SELESAI....."
 echo
 echo "Akses ke GRAFANA Dashboard lalu klik icon “+” dan klik import, setelah itu pada bagian import via grafana.com isi 11074 atau 1860, dimana ini adalah code untuk template monitoring serv"
+systemctl status prometheus
