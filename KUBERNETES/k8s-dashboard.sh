@@ -1,5 +1,6 @@
 #!/bin/bash
 #SUMBER : https://adamtheautomator.com/kubernetes-dashboard/
+#https://devopscube.com/setup-grafana-kubernetes/
 
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
 kubectl get all -n kubernetes-dashboard
