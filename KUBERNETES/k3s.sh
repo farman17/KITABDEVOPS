@@ -1,6 +1,8 @@
 #!/bin/bash
 #SUMBER : https://itnext.io/setup-your-own-kubernetes-cluster-with-k3s-b527bf48e36a
 #https://gladi.id/k3s-vs-k8s-apa-perbadinganya/
+#https://computingforgeeks.com/install-kubernetes-on-ubuntu-using-k3s/
+#https://itnext.io/setup-your-own-kubernetes-cluster-with-k3s-b527bf48e36a
 curl -sfL https://get.k3s.io | sh -
 #Get the node token which is needed in the next step:
 #cat /var/lib/rancher/k3s/server/node-token
