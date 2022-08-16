@@ -51,4 +51,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
   #type: LoadBalancer
   
   
+  #To add HPA just doing : kubectl autoscale deployment hello-world --min=2 --max=5 --cpu-percent=50
+  
+  
 
