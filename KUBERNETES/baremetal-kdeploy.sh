@@ -21,8 +21,8 @@ spec:
         app: tekkadan
     spec:
       containers:
-        - name: carolyne
-          image: jacqueline/carolyne:latest
+        - name: tekkadan-apps
+          image: farman17/landingpage-1:35
           ports:
             - containerPort: 4000
 EOF
