@@ -16,8 +16,11 @@ echo
 echo
 
 kubectl patch deployment ingress-nginx-controller -n ingress-nginx --patch "$(cat ingress.yaml)"
-
-clear
+echo
+echo
+echo
+echo "If you now run curl localhost we see at there is a web server running. That means success!"
+echo
 curl localhost 
 echo
 echo
