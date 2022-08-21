@@ -3,6 +3,8 @@ clear
 echo
 
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/baremetal/deploy.yaml
+#isinya sama dengan file baremetal-nginx-controller.yaml, berlaku jika ingin di apply manual
+
 
 cat > ingress.yaml <<EOF 
 spec:
