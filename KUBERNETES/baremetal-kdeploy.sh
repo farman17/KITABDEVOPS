@@ -90,3 +90,18 @@ spec:
     resource:
       name: memory
       targetAverageValue: 1Mi
+
+
+kubectl get pods -n production
+ echo
+ echo
+ kubectl get deployment -n production
+ echo
+ echo
+ kubectl get svc -n production
+ echo
+ echo
+ kubectl get ingress -n production
+ echo
+ echo
+ kubectl get hpa -n production
