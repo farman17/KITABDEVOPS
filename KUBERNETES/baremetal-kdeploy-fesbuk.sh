@@ -103,6 +103,20 @@ spec:
     resource:
       name: memory
       targetAverageValue: 1Mi
+EOF
+
+
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Secret
+metadata:
+  name: p-secret-fb
+  namespace: production
+type: Opaque
+data:
+  DB_USER: YWRtaW4=
+  DB_PASS: ZmFybWFuMTc=
+EOF
       
       
       
