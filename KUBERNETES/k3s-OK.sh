@@ -24,7 +24,7 @@ curl -sfL https://get.k3s.io | sh -s -
 #curl -sfL https://get.k3s.io | K3S_URL=https://${CONTROLLER_SERVER_IP}:6443 sh
 
 #How to install Nginx Ingress Controller
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.47.0/deploy/static/provider/baremetal/deploy.yaml
+#kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.47.0/deploy/static/provider/baremetal/deploy.yaml
 
 #create file ingress-controller-load-balancer.yaml:
 #---
