@@ -26,3 +26,9 @@ echo
 echo
 
 kubectl create namespace production
+
+#create secrets :
+#echo -n 'admin' | base64
+#YWRtaW4=
+#echo -n '1f2d1e2e67df' | base64
+#MWYyZDFlMmU2N2Rm
