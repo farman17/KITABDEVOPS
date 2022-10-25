@@ -15,3 +15,4 @@ echo
 echo "SELESAI....."
 
 #sumber : https://www.linuxtechi.com/how-to-install-rancher-on-ubuntu/
+#another ref :https://linuxhint.com/install_rancher_ubuntu_docker_containers/
