@@ -1,0 +1,165 @@
+<Ansible Playbook Single File atau menuliskan seluruh tasks, handlers, template pada 1 file YAML.>
+<Ansible Roles suatu cara organize konfigurasi secara terpisah ke beberapa susunan folder.>
+
+
+
+LANDING PAGE BY PLAYBOOK::
+-------------------------------------------
+
+-Aktifkan node ec2 masing2 dan catat ip nya masing2 alokasikan pastikan sudah update dan instal python
+apt-get update
+apt-get install python ansible
+
+1. node untuk landing-page (host1) : 18.221.209.67
+2. node untuk wordpress (host2)   : 3.129.207.88
+
+cek IP
+curl ifconfig.io
+
+-Masuk ke Ansible Controller buat nama id_rsa 
+ dan copy kan private key (belajaraws.pem) ke cd .ssh/id_rsa
+
+-kemudian : 
+chmod 400 id_rsa 
+
+-edit file di /etc/ansible/hosts dan tambahkan :
+ [landing-page] 
+ 18.221.209.67     ansible_user=ubuntu  ansible_ssh_private_key=/root/.ssh/id_rsa     ----> sesuaikan IP nya
+ 
+ [wordpress]
+ 18.217.15.180     ansible_user=ubuntu  ansible_ssh_private_key=/root/.ssh/id_rsa     -----> sesuaikan IP nya
+ 
+-kemudian lakukan ping ke host :
+ ansible landing-page -m ping   
+ ansible wordpress -m ping
+ 
+ kemudian:
+ansible all -m ping 
+ 
+ sudo apt-get update
+sudo apt-get install mysql client
+
+ kmudian login ke databasenya 
+ 
+ 
+
+ 
+ 
+ 
+
+--------------------------------
+::DEPLOYING APP::
+-------------------------------------
+
+ kemudian masuk ke folder tmp: cd /tmp   ----> kenapa harus tmp? karna..coba liat settingan yaml nya. disitu ada settingan kemudian lakukan clone:
+ git clone https://github.com/sdcilsy/landing-page
+ 
+ kembali ke root dan buat file landingpage.yaml:
+ https://github.com/aushafy/ansible-landingpage-cilsy 
+ 
+ Untuk Landing Page:
+ 
+ - hosts: landing-page
+  remote_user: ubuntu
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: install apache2
+      apt:
+        name: apache2
+        state: latest
+    - name: start apache service
+      service:
+        name: apache2
+        state: started
+    - name: deploy landing-page to /var/www/html/
+      copy:
+        src: /tmp/landing-page/
+        dest: /var/www/html/
+ 
+
+ 
+
+ kemudian masuk ke foldernya.
+ 
+ kemudian jalankan :
+ ansible-playbook landingpage.yaml ------> sesuaikan nama filenya
+ tunggu sampai selesai
+ 
+ dan buka  browser buka IP dari node landing-page : 18.221.209.67
+ 
+ 
+ kemudian coba cek status nginx nya:
+ ansible landing-page -m command -a "service nginx status"
+
+atau:
+ansible landing-page -m command -a "journalctl -xe" 
+
+
+ ** install tree untuk melihat struktur folder dengan baik dan rapih:
+ apt-get install tree
+ 
+ 
+ 
+ ------------------------
+ TAMBAHAN UNTUK WORDPRESS : menggunakan RULES
+ -----------------------------------
+ 
+
+ - create database di aws RDS 
+   kemudian catat endpoint nya yg muncul
+
+ masuk ke controller dan :
+    
+   install sql client ;
+   apt install mysql-client-core-5.7
+   
+kemudian coba akses ke db di RDS : mysql -u admin -p -h endpoint RDS-----> sesuaikan
+ 
+ kemudian keluar dan download:
+ git clone https://github.com/aushafy/ansible-playbook-cilsy.git
+ masuk ke : ansible-roles-wordpress
+ 
+ masuk ke dalam foldernya. dan lakukan tree
+ tambahkan folder : group_vars
+ 
+ kemudian masuk ke folder:
+ ansible-playbook-cilsy/ansible-roles-wordpress/roles/wordpress/templates
+ 
+ lakukan edit wpconfig, sesuaikan semua datnya dengan RDS kita
+ 
+ 
+ masuk lagi ke folder:
+ ansible-playbook-cilsy/ansible-roles-wordpress/roles/wordpress/tasks
+ dan edit mail.yaml :-----> cek yang terakhir2 tambahkan seperti ini:
+ 
+
+- name: copy wp-config to /var/www/html/wordpress
+  template:
+    src: wp-config.php.j2
+    dest: /var/www/html/wordpress/wp-config.php
+  notify: "restart apache2"
+  
+  
+ 
+
+masuk lagi ke folder:
+ansible-playbook-cilsy/ansible-roles-wordpress/roles/wordpress
+dan buat folder baru dgn nama handlers, kemudian bikin file main.yaml:
+ - name: restart apache2
+   service: 
+     name: apache2
+     state: restarted
+     
+
+masuk ke folder:
+ansible-playbook-cilsy/ansible-roles-wordpress
+kemudian lakukan ansible-playbook wordpress.yaml
+
+
+                 ------------------------------------------------------------------------------------------------------
+  UNTUK FACEBOOK silahkan download di : https://github.com/farman17/pesbuk-ansible.git
+  ---------------------------------------------------------------------------------------------  >(ROLES) it works!!
+ 
+ *TAMBAHAN : https://github.com/Rizal-I/ansible-playbook    ------>lengkap
+ 
