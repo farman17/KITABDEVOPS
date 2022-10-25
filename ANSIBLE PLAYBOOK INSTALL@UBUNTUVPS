@@ -1,0 +1,80 @@
+ANSIBLE PLAYBOOK INSTALL@UBUNTUVPS
+https://phoenixnap.com/kb/install-ansible-ubuntu-20-04
+https://www.linuxid.net/24838/cara-membuat-user-sudo-di-ubuntu-linux/
+
+----------------------------------
+hostnamectl set-hostname SWARM-master
+
+install dependencies kebutuhan ansible terlebih dahulu di masing2 node :
+apt-get update
+apt-get install python ansible
+
+Tambahkan user ke kedua node:
+adduser [username]
+
+Tambahkan usermod (assign administrative access to the account) :
+usermod -aG sudo [username]
+
+Log into the new user account when you want to use the Ansible control node:
+masih dalam root original, kemudian logout dan login ke user baru masing2 node,
+su - [username]
+
+Setting up an SSH Key pair masing2 node:
+ssh-keygen -t rsa 
+
+berikan hak akses masing2:
+chmod 400 id_rsa 
+
+Edit file di /etc/ansible/hosts masing2 node dan tambahkan, jgn lupa user diedit sesuaikan :
+ [master] 
+ 192.168.33.13     ansible_user=[username]  ansible_ssh_private_key=/root/.ssh/id_rsa  
+ 
+ [worker]
+ 192.168.33.14     ansible_user=[username]  ansible_ssh_private_key=/root/.ssh/id_rsa  
+ 
+
+Copy SSH public key masing2 node :
+ssh-copy-id username@remote_host
+contoh : ssh-copy-id farman@192.168.33.14
+  
+
+Kemudian lakukan ping ke host :
+ ansible master -m ping   
+ ansible worker -m ping
+ maka hasilnya akan terbentuk authorized_keys
+
+
+Tambahkan copy isi id_rsa.pub kedalam "authorized_keys" pada authorized_keys node master saja:
+Agar diserver bisa di instal juga ----> [master]
+
+Cek dahulu settingan Ansible nya :
+ansible-inventory --list -y
+
+
+Kemudian lakukan clonerepo di server dan clone "git@github.com:farman17/ansible-depen-new2021.git" :
+ps -e | grep [s]sh-agent
+ssh-agent /bin/bash
+ssh-add ~/.ssh/id_rsa
+ssh-add -l
+cat id_rsa.pub
+(copy public key ke repogithub)
+ssh -T git@github.com
+git clone git@github.com:farman17/ansible-depen-new2021.git
+
+
+Lakukan beberapa pengaturan / penyesuaian di dalam folder ansible-depen-new2021...
+dan untuk menjalankan lakukan :
+ansible-playbook [namafileyaml].yaml
+
+
+*****Jika terjadi error tidak bisa apt-get update, lakukan langkah berikut :
+cd /var/lib/apt/lists/
+rm -fr *
+cd /etc/apt/sources.list.d/
+source: https://informatika11d.wordpress.com/2014/04/26/mengatasi-error-saat-melakukan-sudo-apt-get-update/
+*****************************************eof*****************************
+
+#######################################
+sumber referensi untuk belajar :
+https://github.com/mdn/ansible-jenkins
+##########################################
