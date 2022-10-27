@@ -7,7 +7,7 @@ hostnamectl set-hostname SWARM-master
 
 install dependencies kebutuhan ansible terlebih dahulu di masing2 node :
 apt-get update
-apt-get install python ansible
+apt-get install python3 ansible
 
 Tambahkan user ke kedua node:
 adduser [username]
