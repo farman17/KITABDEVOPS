@@ -4,6 +4,12 @@ https://www.linuxid.net/24838/cara-membuat-user-sudo-di-ubuntu-linux/
 
 ----------------------------------
 hostnamectl set-hostname SWARM-master
+bisa juga :
+sudo nano /etc/hostname
+*ganti dengan nama hostname baru
+sudo nano /etc/hosts
+*ganti dengan nama hostname baru
+sudo reboot
 
 install dependencies kebutuhan ansible terlebih dahulu di masing2 node :
 apt-get update
