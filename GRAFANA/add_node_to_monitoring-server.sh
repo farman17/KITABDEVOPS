@@ -10,6 +10,53 @@ echo "cek instalasi node exporter.."
 echo
 echo
 echo
+echo "Menambahkan file konfigurasi ke node_exporter.service"
+echo
+sudo tee /etc/systemd/system/node_exporter.service<<EOF
+[Unit]
+Description=Node Exporter
+After=network.target
+[Service]
+User=node_exporter
+Group=node_exporter
+Type=simple
+ExecStart=/usr/local/bin/node_exporter \
+    --collector.cpu \
+    --collector.diskstats \
+    --collector.filesystem \
+    --collector.loadavg \
+    --collector.meminfo \
+    --collector.filefd \
+    --collector.netdev \
+    --collector.stat \
+    --collector.netstat \
+    --collector.systemd \
+    --collector.uname \
+    --collector.vmstat \
+    --collector.time \
+    --collector.mdadm \
+    --collector.zfs \
+    --collector.tcpstat \
+    --collector.bonding \
+    --collector.hwmon \
+    --collector.arp \
+    --web.listen-address=:9100 \
+    --web.telemetry-path="/metrics"
+[Install]
+WantedBy=multi-user.target
+EOF
+echo
+clear
+echo
+echo "Cek status node exporter"
+echo
+useradd -rs /bin/false node_exporter
+systemctl daemon-reload
+systemctl enable node_exporter
+systemctl start node_exporter
+systemctl status node_exporter
+echo
+echo
 sed -i '$ a\ ' /etc/prometheus/prometheus.yml
 sed -i '$ a\  - job_name: jobname' /etc/prometheus/prometheus.yml
 sed -i '$ a\    static_configs:' /etc/prometheus/prometheus.yml 
