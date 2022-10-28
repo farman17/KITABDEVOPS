@@ -34,7 +34,7 @@ tee /etc/ansible/hosts<<EOF
 EOF
 echo
 echo
-ssh-copy-id $user1@192.168.33.33
+ssh-copy-id $user2@$ip2
 echo
 echo
 ansible $host -m ping
