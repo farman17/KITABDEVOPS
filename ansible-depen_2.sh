@@ -5,9 +5,16 @@ clear
 apt-get install python3 ansible
 clear
 
-sudo ssh-keygen -t rsa
-cd /root/.ssh
-sudo chmod 400 id_rsa
+echo -n "masukkan username baru-ansible: ";
+read username;
+adduser $username
+usermod -aG sudo $username
+
+runuser -l  $username  -c  'sudo ssh-keygen -t rsa'
+runuser -l  $username  -c  'sudo chmod 400 id_rsa'
+#sudo ssh-keygen -t rsa
+#cd /root/.ssh
+#sudo chmod 400 id_rsa
 
 echo -n "masukkan domain dest-host: ";
 read host;
@@ -20,7 +27,7 @@ echo
 
 echo -n "masukkan domain source-host: ";
 read source;
-echo -n "masukkan IP dest-host: ";
+echo -n "masukkan IP source-host: ";
 read ip2;
 echo -n "masukkan username source-host: ";
 read user2;
@@ -30,7 +37,7 @@ tee /etc/ansible/hosts<<EOF
  $ip1     ansible_user=$user1  ansible_ssh_private_key=/root/.ssh/id_rsa 
 
  [$source]
- $ip2     ansible_user=$user2  ansible_ssh_private_key=/root/.ssh/id_rsa 
+ $ip2     ansible_user=$user2  ansible_ssh_private_key=/root/.ssh/id_rsa
 EOF
 echo
 echo
