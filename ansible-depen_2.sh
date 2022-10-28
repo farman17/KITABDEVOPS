@@ -11,20 +11,26 @@ sudo chmod 400 id_rsa
 
 echo -n "masukkan domain dest-host: ";
 read host;
+echo -n "masukkan IP dest-host: ";
+read ip1;
 echo -n "masukkan username dest-host: ";
 read user1;
+
 echo
+
 echo -n "masukkan domain source-host: ";
 read source;
+echo -n "masukkan IP dest-host: ";
+read ip2;
 echo -n "masukkan username source-host: ";
 read user2;
 clear
 tee /etc/ansible/hosts<<EOF
  [$host]
- 192.168.33.33     ansible_user=$user1  ansible_ssh_private_key=/root/.ssh/id_rsa
+ $ip1     ansible_user=$user1  ansible_ssh_private_key=/root/.ssh/id_rsa 
 
  [$source]
- 192.168.33.9     ansible_user=$user2  ansible_ssh_private_key=/root/.ssh/id_rsa 
+ $ip2     ansible_user=$user2  ansible_ssh_private_key=/root/.ssh/id_rsa 
 EOF
 echo
 echo
