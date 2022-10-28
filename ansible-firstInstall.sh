@@ -11,39 +11,29 @@ adduser $username
 usermod -aG sudo $username
 
 runuser -l  $username  -c  'sudo ssh-keygen -t rsa'
-runuser -l  $username  -c  'sudo chmod 400 id_rsa'
+runuser -l  $username  -c  'sudo chmod 400 /root/.ssh/id_rsa'
 #sudo ssh-keygen -t rsa
 #cd /root/.ssh
 #sudo chmod 400 id_rsa
 
 echo -n "masukkan domain dest-host: ";
-read host;
+read host1;
 echo -n "masukkan IP dest-host: ";
 read ip1;
 echo -n "masukkan username dest-host: ";
 read user1;
 
 echo
-
-echo -n "masukkan domain source-host: ";
-read source;
-echo -n "masukkan IP source-host: ";
-read ip2;
-echo -n "masukkan username source-host: ";
-read user2;
 clear
 tee /etc/ansible/hosts<<EOF
- [$host]
- $ip1     ansible_user=$user1  ansible_ssh_private_key=/root/.ssh/id_rsa 
-
- [$source]
- $ip2     ansible_user=$user2  ansible_ssh_private_key=/root/.ssh/id_rsa
+ [$host1]
+ $ip1     ansible_user=$user1  ansible_ssh_private_key=/root/.ssh/id_rsa
 EOF
 echo
 echo
 ssh-copy-id $user1@$ip1
 echo
 echo
-ansible $host -m ping
+ansible $host1 -m ping
 echo
-echo "DONE......."
+echo "DONE....ANSIBLE anda telah berhasil terkoneksi dengan user $user1 dengan hostname  $host1 dan ip-address $ip1.."
