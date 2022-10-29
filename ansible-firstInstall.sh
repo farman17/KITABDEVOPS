@@ -1,8 +1,11 @@
 #!/bin/bash
 clear
+sudo apt install -y software-properties-common
+sudo add-apt-repository --yes --update ppa:ansible/ansible
 apt-get update
 clear
-apt-get install python3 ansible
+sudo apt install -y ansible
+#apt-get install python3 ansible
 clear
 
 echo -n "masukkan username baru-ansible: ";
@@ -36,4 +39,4 @@ echo
 echo
 ansible $host1 -m ping
 echo
-echo "DONE....ANSIBLE anda telah berhasil terkoneksi dengan user $user1 dengan hostname  $host1 dan ip-address $ip1.."
+echo "DONE....ANSIBLE username anda [$username] telah berhasil terkoneksi dengan user $user1 dengan hostname  $host1 dan ip-address $ip1.."
