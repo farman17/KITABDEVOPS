@@ -5,8 +5,8 @@
   become_method: sudo
   roles:
     - update
-#    - dependen
-#    - docker
-#    - node_exporter
-#    - nginx
+    - dependen
+    - docker
+    - node_exporter
+    - nginx
     - grafana_prom
