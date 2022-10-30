@@ -1,0 +1,20 @@
+- apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+
+- name: install docker-addrepo
+  command: add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+
+- name: install docker-addpolicy
+  command: apt-cache policy docker-ce
+
+- name: install docker-INSTALL
+  apt:
+    name: docker-ce
+    state: present
+
+- name: Install DockerCompose
+  get_url:
+     url : https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
+     dest: /usr/local/bin/docker-compose
+     mode: 'u+x,g+x'
+

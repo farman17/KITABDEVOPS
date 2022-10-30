@@ -1,0 +1,9 @@
+- name: ANSIBLE-COLONYLABS@2022
+  hosts: TRY
+  remote_user: try
+  become: yes
+  become_method: sudo
+  roles:
+    - update
+    - dependen
+    - docker

@@ -1,0 +1,31 @@
+[Unit]
+Description=Node Exporter
+After=network.target
+[Service]
+User=node_exporter
+Group=node_exporter
+Type=simple
+ExecStart=/usr/local/bin/node_exporter \
+    --collector.cpu \
+    --collector.diskstats \
+    --collector.filesystem \
+    --collector.loadavg \
+    --collector.meminfo \
+    --collector.filefd \
+    --collector.netdev \
+    --collector.stat \
+    --collector.netstat \
+    --collector.systemd \
+    --collector.uname \
+    --collector.vmstat \
+    --collector.time \
+    --collector.mdadm \
+    --collector.zfs \
+    --collector.tcpstat \
+    --collector.bonding \
+    --collector.hwmon \
+    --collector.arp \
+    --web.listen-address=:9100 \
+    --web.telemetry-path="/metrics"
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,72 @@
+- name: Install Node_Exporter
+  shell: curl -s https://api.github.com/repos/prometheus/node_exporter/releases/latest | grep browser_download_url | grep linux-amd64 | cut -d '"' -f 4 | wget -qi -
+  args:
+      chdir: "/usr/local/bin"
+      warn: no
+      
+
+#- name: Archives the files and folders
+ # become: yes
+ # archive:
+  #  path: /usr/local/bin/*
+   # dest: /usr/local/bin/node_exporter-1.4.0.linux-amd64.tar.gz
+   # format: tar
+
+  #- name: Creating /dir1 & /dir2
+   # file:
+    #  path: "{{ item }}"
+     # state: directory
+    #with_items:
+    # - /dir1
+    # - /dir2
+
+- name: Extract archive.tgz into /usr/local/bin
+  ansible.builtin.unarchive:
+    src: /usr/local/bin/node_exporter-1.4.0.linux-amd64.tar.gz
+    dest: /usr/local/bin
+    remote_src: yes
+
+- name: move node_exporter to folder
+  command: mv /usr/local/bin/node_exporter-1.4.0.linux-amd64/node_exporter /usr/local/bin/
+
+- name: copy node_exporter to usr/bin
+  copy:
+    src: /usr/local/bin/node_exporter
+    dest: /usr/bin/
+    mode: '0755'
+
+
+- name: Removing dir_cache & file_cache
+  file:
+      path: "{{ item }}"
+      state: absent
+  with_items:
+     - /usr/local/bin/node_exporter-1.4.0.linux-amd64.tar.gz
+     - /usr/local/bin/node_exporter-1.4.0.linux-amd64
+
+- name: Menambahkan file konfigurasi ke node_exporter.service
+  copy:
+    src: ../templates/node_exporter.service
+    dest: /etc/systemd/system/
+
+- name: Ensure 'node_exporter' userxists
+  user:
+    name: node_exporter
+    state: present
+
+
+#- name: Reload services with systemd
+ # systemd:
+  #   name: node_exporter.service 
+   #  state: reloaded
+    # daemon_reload: true
+
+- name: Reload daemon system
+  ansible.builtin.systemd:
+    daemon_reload: yes
+
+- name: service always started
+  systemd:
+    name: node_exporter
+    state: started
+    enabled: yes
