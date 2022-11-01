@@ -1,0 +1,4 @@
+#HARBOR CONFIG
+hostname: 192.168.33.13
+port: 8080
+pass_harbor: 123456Ab
