@@ -1,0 +1,19 @@
+- AWX-Install pip3 request-docker-cmpose
+  command:  pip3 install requests==2.22.0 docker-compose==1.29.2
+
+#- name: AWX-Download the AWX package archive
+  #ansible.builtin.get_url:
+    #url: https://github.com/ansible/awx/archive/17.1.0.zip
+    #dest: /usr/local/bin
+
+#- name: AWX-Extract archive.tgz into /usr/local/bin
+  #ansible.builtin.unarchive:
+    #src: /usr/local/bin/awx-17.1.0.zip
+    #dest: /usr/local/bin
+    #remote_src: yes
+
+
+- name: Harbor-INSTALL with no add-ons
+  command: ansible-playbook -i inventory install.yml
+  args:
+    chdir: /usr/local/bin/awx-17.1.0/installer

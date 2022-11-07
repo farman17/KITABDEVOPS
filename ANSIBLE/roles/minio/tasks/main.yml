@@ -1,0 +1,99 @@
+- name: MINio-Download package
+  ansible.builtin.get_url:
+    url: https://dl.min.io/server/minio/release/linux-amd64/minio
+    dest: /usr/local/bin
+   
+- name: Minio server-useradd
+  user:
+    name: minio  
+    shell: /sbin/nologin
+    state: present   
+
+- name: Expiring password for user
+  shell: chage -E 0 minio   
+
+- name: Change mode permissions
+  file:
+    path: /usr/local/bin/minio
+    state: file
+    owner: minio
+    group: minio  
+    mode: a+x
+
+- name: copy config
+  copy:
+    src: ../templates/minio
+    dest: /etc/default/
+  become: true
+
+- name: Replace IP Address
+  replace:
+        path: /etc/default/minio
+        regexp: '192.168.33.13'
+        replace: '{{ IP }}'
+
+- name: Replace Access Key Minio
+  replace:
+        path: /etc/default/minio
+        regexp: 'minioadmin'
+        replace: '{{ access_key }}'
+
+- name: Replace Secret Key Minio
+  replace:
+        path: /etc/default/minio
+        regexp: 'minio1234Ab'
+        replace: '{{ secret_key }}'
+
+- name: Creating Directory
+  file:
+     path: "{{ item }}"
+     state: directory
+  with_items:
+     - /usr/local/share/minio
+     - /etc/minio
+
+- name: Change mode permissions to folder /usr/local/share/minio
+  file:
+    path: /usr/local/share/minio
+    owner: minio
+    group: minio
+
+- name: Change mode permissions to folder /etc/minio
+  file:
+    path: /etc/minio
+    owner: minio
+    group: minio
+
+- name: Download minio.service
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/minio/minio-service/master/linux-systemd/minio.service
+    dest: /usr/local/bin
+    
+- name: copy config  
+  copy:
+    src: ../templates/minio.service
+    dest: /usr/local/bin/
+  become: true
+
+- name: move minio.service to /etc/systemd/system
+  command: mv /usr/local/bin/minio.service /etc/systemd/system/
+
+- name: Reload daemon system
+  ansible.builtin.systemd:
+    daemon_reload: yes
+
+- name: service always started
+  systemd:
+    name: minio
+    state: started
+    enabled: yes
+
+- name: Download MINio client
+  ansible.builtin.get_url:
+    url: https://dl.minio.io/client/mc/release/linux-amd64/mc
+    dest: /usr/local/bin
+    mode: +x
+
+- name: DONE
+  debug:
+    msg: "The Minio Server Installed successfully"

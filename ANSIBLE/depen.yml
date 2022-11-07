@@ -1,13 +1,19 @@
 - name: ANSIBLE-COLONYLABS@2022
-  hosts: serv-vm
-  remote_user: dito
+  hosts: testing
+  remote_user: testing
   become: yes
   become_method: sudo
   roles:
-#    - update
-#    - dependen
-#    - docker
-#    - node_exporter
-#    - nginx
-#    - grafana_prom
-    - harbor
+    - update
+    - dependen
+    #- docker
+    #- node_exporter
+    #- nginx
+    #- grafana_prom
+    #- harbor
+    #- k3s-kubernetes
+    # - awx-ansible
+    - minio
+    # - webmin
+    # - jenkins
+    - SUMMARY

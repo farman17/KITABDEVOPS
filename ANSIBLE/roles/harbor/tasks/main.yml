@@ -1,7 +1,7 @@
-- name: Harbor-Download
-  ansible.builtin.get_url:
-    url: https://github.com/goharbor/harbor/releases/download/v2.4.1/harbor-offline-installer-v2.4.1.tgz
-    dest: /usr/local/bin
+#- name: Harbor-Download
+  #ansible.builtin.get_url:
+    #url: https://github.com/goharbor/harbor/releases/download/v2.4.1/harbor-offline-installer-v2.4.1.tgz
+    #dest: /usr/local/bin
 
 - name: Harbor-Extract archive.tgz into /usr/local/bin
   ansible.builtin.unarchive:
@@ -68,3 +68,13 @@
   args:
     chdir: /usr/local/bin/harbor
 
+- name: Removing dir_cache & file_cache
+  file:
+      path: "{{ item }}"
+      state: absent
+  with_items:
+     - /usr/local/bin/harbor-offline-installer-v2.4.1.tgz
+
+- name: DONE
+  debug:
+    msg: "The Harbor Repository Installed successfully"

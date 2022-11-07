@@ -1,0 +1,37 @@
+- name: "JENKINS- Read a file content"
+  shell: |
+    cat /var/lib/jenkins/secrets/initialAdminPassword
+  register: file_content
+
+- name: JENKINS
+  debug:
+    msg: "JENKINS default password : {{ file_content.stdout }}"
+
+- name: WEBMIN
+  debug:
+    msg: "WEBMIN root password : {{ password }}"
+
+- name: HARBOR
+  debug:
+    msg: "HARBOR domain : {{ hostname }}"
+
+- name: HARBOR
+  debug:
+    msg: "HARBOR password : {{ pass_harbor }}"
+
+- name: HARBOR 
+  debug:
+    msg: "HARBOR port : {{ port }}"
+
+- name: MINIO
+  debug:
+    msg: "MINIO domain : {{ IP }}"
+
+- name: MINIO
+  debug:
+    msg: "MINIO username : {{ access_key }}"
+
+- name: MINIO 
+  debug:
+    msg: "MINIO password : {{ secret_key }}"
+

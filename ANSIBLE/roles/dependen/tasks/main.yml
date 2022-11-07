@@ -13,7 +13,7 @@
    # - php-zip
    # - mysql-client-core-5.7
    # - libc6
-   # - python3
+   # - python3.10
     - wget
    # - python-mysqldb
     - python-dev
@@ -28,5 +28,9 @@
     - python-apt
     - gnupg2 
     - curl 
+    - unzip
     - software-properties-common
+    - apt-transport-https
+    - sudo
+    - openjdk-17-jre-headless
     update_cache: yes

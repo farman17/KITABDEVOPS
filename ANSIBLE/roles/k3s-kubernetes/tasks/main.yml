@@ -1,0 +1,12 @@
+- name: K3s-kubernetes-Create rules
+  shell: export INSTALL_K3S_EXEC="server --no-deploy traefik"
+
+- name: k3s-kubernetes-INSTALL
+  shell: curl -sfL https://get.k3s.io | sh -s -
+  args:
+      chdir: "/usr/local/bin"
+      warn: no
+
+- name: DONE
+  debug:
+    msg: "The K3S Kubernetes Server Installed successfully"
