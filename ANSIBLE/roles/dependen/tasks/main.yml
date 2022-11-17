@@ -15,6 +15,7 @@
    # - libc6
    # - python3.10
     - wget
+    - net-tools
    # - python-mysqldb
     - python-dev
     - libmysqlclient-dev
@@ -33,4 +34,5 @@
     - apt-transport-https
     - sudo
     - openjdk-17-jre-headless
+    - python3-certbot-nginx
     update_cache: yes

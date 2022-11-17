@@ -1,0 +1,42 @@
+- name: Add node-01 IP and host name cluster nodes
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    line: '{{ ip_node_cluster1 }} {{ host_node_cluster1 }}'
+    create: yes
+
+- name: Add node-02 IP and host name cluster nodes
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    line: '{{ ip_node_cluster2 }} {{ host_node_cluster2 }}'
+    create: yes
+
+- name: Install Pacemaker
+  ansible.builtin.apt:
+    name: pacemaker
+    state: present
+
+- name: Install corosync
+  ansible.builtin.apt:
+    name: corosync
+    state: present
+
+- name: Install pcs
+  ansible.builtin.apt:
+    name: pcs
+    state: present
+
+- name: restart and enabled pcsd
+  service:
+    name: pcsd
+    state: restarted
+    enabled: yes
+
+- name: config | Setting hacluster password
+  user:
+    name: "hacluster"
+    password: "{{ password_hacluster | password_hash('sha512') }}"
+  become: true
+
+- name: DONE
+  debug:
+    msg: "The Corosync-pacemaker INSTALL ONLY  Installed successfully"

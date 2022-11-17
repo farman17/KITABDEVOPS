@@ -1,19 +1,23 @@
 - name: ANSIBLE-COLONYLABS@2022
-  hosts: testing
-  remote_user: testing
+  hosts: testing2
+  remote_user: testing2
   become: yes
   become_method: sudo
   roles:
     - update
     - dependen
-    #- docker
-    #- node_exporter
     #- nginx
+    #- docker
+    #- corosync-cluster
+    #- corosync-client
+    #- node_exporter
     #- grafana_prom
     #- harbor
-    #- k3s-kubernetes
+    - k3s-kubernetes
     # - awx-ansible
-    - minio
+    #- minio
     # - webmin
-    # - jenkins
-    - SUMMARY
+    #- jenkins
+    #- redis
+    #- redis-replica
+    #- SUMMARY

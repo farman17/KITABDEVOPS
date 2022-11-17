@@ -1,7 +1,7 @@
-#- name: Harbor-Download
-  #ansible.builtin.get_url:
-    #url: https://github.com/goharbor/harbor/releases/download/v2.4.1/harbor-offline-installer-v2.4.1.tgz
-    #dest: /usr/local/bin
+- name: Harbor-Download
+  ansible.builtin.get_url:
+    url: https://github.com/goharbor/harbor/releases/download/v2.4.1/harbor-offline-installer-v2.4.1.tgz
+    dest: /usr/local/bin
 
 - name: Harbor-Extract archive.tgz into /usr/local/bin
   ansible.builtin.unarchive:
@@ -74,6 +74,29 @@
       state: absent
   with_items:
      - /usr/local/bin/harbor-offline-installer-v2.4.1.tgz
+
+- name: copy domain config NGINX
+  copy:
+    src: ../templates/domain
+    dest: /etc/nginx/sites-enabled/{{ hostname }}
+  become: true
+
+- name: Replace port at sites-enabled NGINX
+  replace:
+        path: /etc/nginx/sites-enabled/{{ hostname }}
+        regexp: '8080'
+        replace: '{{ port }}'
+
+- name: Replace domain  at sites-enabled NGINX
+  replace:
+        path: /etc/nginx/sites-enabled/{{ hostname }}
+        regexp: 'domain'
+        replace: '{{ hostname }}'
+
+- name: restart NGINX
+  service:
+    name: nginx
+    state: restarted
 
 - name: DONE
   debug:

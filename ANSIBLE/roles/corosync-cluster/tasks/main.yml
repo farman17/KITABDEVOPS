@@ -1,0 +1,33 @@
+- name: PCS Cluster Auth  
+  shell: pcs cluster auth -u hacluster -p {{ password_hacluster }} 
+  
+- name: PCS Host AUTH
+  shell: pcs host auth -u hacluster -p {{ password_hacluster }} {{ host_node_cluster1 }} {{ host_node_cluster2 }} 
+
+- name: PCS CLUSTER SETUP
+  shell: pcs cluster setup cluster1 {{ host_node_cluster1 }} {{ host_node_cluster2 }}  --force
+ 
+- name: enable all cluster
+  shell: pcs cluster enable --all
+
+- name: Start Cluster
+  shell: pcs cluster start --all
+
+- name: Disable second properties stonith
+  shell: pcs property set stonith-enabled=false
+
+- name: Disable second properties no-quorum-policy
+  shell: pcs property set no-quorum-policy=ignore
+
+- name: Defining Floating IP
+  shell: pcs resource create floating_ip ocf:heartbeat:IPaddr2 ip={{ ip_float }} cidr_netmask=24 op monitor interval=60s
+
+- name: Define http_server nginx 
+  shell: pcs resource create http_server ocf:heartbeat:nginx configfile="/etc/nginx/nginx.conf" op monitor timeout="20s" interval="60s"
+
+- name: Configure Group
+  shell: crm configure group cluster1 floating_ip http_server
+
+- name: DONE
+  debug:
+    msg: "The Corosync-pacemaker Installed successfully"

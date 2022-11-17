@@ -1,0 +1,13 @@
+server {
+    listen 80;
+    server_name domain;
+
+        location / {
+                include /etc/nginx/proxy_params;
+                proxy_pass          http://localhost:8080;
+                proxy_read_timeout  60s;
+        # Fix the "It appears that your reverse proxy set up is broken" error.  
+        # Make sure the domain name is correct
+                proxy_redirect      http://localhost:8080 http://domain;
+        }
+}

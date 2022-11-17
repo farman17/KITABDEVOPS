@@ -1,0 +1,83 @@
+- name: Add specified repository into sources list
+  ansible.builtin.apt_repository:
+    repo: ppa:redislabs/redis
+    state: present
+
+- name: Install redis
+  ansible.builtin.apt:
+    name: redis
+    state: present
+
+- name: restart and enabled redis
+  service:
+    name: redis-server
+    state: restarted
+    enabled: yes
+
+
+- name: Disable default BIND
+  ansible.builtin.replace:
+    path: /etc/redis/redis.conf
+    regexp: 'bind 127.0.0.1 -::1'
+    replace: '# bind 127.0.0.1 -::1'
+
+- name: Disable protected-mode
+  ansible.builtin.replace:
+    path: /etc/redis/redis.conf
+    regexp: 'protected-mode yes'
+    replace: '# protected-mode yes'
+
+- name: Disable default append
+  ansible.builtin.replace:
+    path: /etc/redis/redis.conf
+    regexp: 'appendonly no'
+    replace: '# appendonly no'
+
+- name: Insert BIND
+  ansible.builtin.lineinfile:
+    path: /etc/redis/redis.conf
+    line: 'bind {{ ip_nodes_redis_master }}'
+    create: yes
+
+- name: Insert mode cluster  
+  ansible.builtin.lineinfile:
+    path: /etc/redis/redis.conf
+    line: 'cluster-enabled yes'
+    create: yes
+
+- name: Insert config file
+  ansible.builtin.lineinfile:
+    path: /etc/redis/redis.conf
+    line: 'cluster-config-file nodes.conf'
+    create: yes
+
+- name: Insert cluster timeout
+  ansible.builtin.lineinfile:
+    path: /etc/redis/redis.conf
+    line: 'cluster-node-timeout 15000'
+    create: yes
+
+- name: Insert append
+  ansible.builtin.lineinfile:
+    path: /etc/redis/redis.conf
+    line: 'appendonly yes'
+    create: yes
+
+- name: Insert Protected-mode
+  ansible.builtin.lineinfile:
+    path: /etc/redis/redis.conf
+    line: 'protected-mode no'
+    create: yes
+
+- name: restart and enabled redis
+  service:
+    name: redis-server
+    state: restarted
+    enabled: yes
+
+- name: Create Cluster-redis
+  shell: redis-cli --cluster create {{ ip_nodes_redis_master }}:6379 {{ ip_nodes_redis_replica }}:6379 --cluster-replicas 1
+
+- name: DONE
+  debug:
+    msg: "The REDIS-Server Installed successfully"
