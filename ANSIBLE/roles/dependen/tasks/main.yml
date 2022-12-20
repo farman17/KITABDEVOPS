@@ -33,6 +33,6 @@
     - software-properties-common
     - apt-transport-https
     - sudo
-    - openjdk-17-jre-headless
+    - openjdk-11-jdk
     - python3-certbot-nginx
     update_cache: yes

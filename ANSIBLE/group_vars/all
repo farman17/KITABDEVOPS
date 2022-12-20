@@ -1,5 +1,5 @@
 #HARBOR CONFIG
-hostname: harbor.bangjago.my.id
+hostname: 192.168.33.11
 port: 8008
 pass_harbor: 123456Ab
 

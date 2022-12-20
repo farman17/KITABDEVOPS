@@ -1,0 +1,2 @@
+- name: installing the jenkins
+  shell: cd /user1 ; nohup java -DJENKINS_HOME=/user1/jenkins -jar jenkins.war &

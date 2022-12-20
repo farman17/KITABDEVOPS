@@ -1,0 +1,53 @@
+- name: Add an Apt signing key with URL
+  ansible.builtin.apt_key:
+    url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+    state: present
+
+- name: add repository Jenkins
+  command: sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+
+- name: Update apt repo and cache 
+  apt: update_cache=yes
+
+- name: Install Jenkins  (state=present is optional)
+  ansible.builtin.apt:
+    name: jenkins
+    state: present
+
+- name: copy config
+  copy:
+    src: ../templates/domain
+    dest: /etc/nginx/sites-enabled/{{ domain_jenkins }}
+  become: true
+
+- name: Replace port at default jenkins
+  replace:
+        path: /etc/default/jenkins
+        regexp: '8080'
+        replace: '{{ port_jenkins }}'
+
+- name: Replace port at sites-enabled NGINX
+  replace:
+        path: /etc/nginx/sites-enabled/{{ domain_jenkins }}
+        regexp: '8080'
+        replace: '{{ port_jenkins }}'
+
+- name: Replace domain at sites-enabled NGINX
+  replace:
+        path: /etc/nginx/sites-enabled/{{ domain_jenkins }}
+        regexp: 'domain'
+        replace: '{{ domain_jenkins }}'
+
+- name: restart Jenkins
+  service:
+    name: jenkins
+    state: restarted
+
+- name: restart NGINX
+  service:
+    name: nginx
+    state: restarted
+
+- name: DONE
+  debug:
+    msg: "The Jenkins CICD Installed successfully"
