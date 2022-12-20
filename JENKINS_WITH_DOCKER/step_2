@@ -1,0 +1,24 @@
+Build it:
+docker build -t myjenkins-blueocean:2.346.1-1 .
+
+Run the Container:
+docker run \
+  --name jenkins-blueocean \
+  --restart=on-failure \
+  --detach \
+  --network jenkins \
+  --env DOCKER_HOST=tcp://docker:2376 \
+  --env DOCKER_CERT_PATH=/certs/client \
+  --env DOCKER_TLS_VERIFY=1 \
+  --publish 9123:8080 \
+  --publish 50000:50000 \
+  --volume jenkins-data:/var/jenkins_home \
+  --volume jenkins-docker-certs:/certs/client:ro \
+  myjenkins-blueocean:2.346.1-1
+
+See the Id of the running Containers:
+docker ps
+
+As in my case my jenkins container Id is 77b6a5a7ae8d in order to know the jenkins administrator password I check the logs for my jenkins Container with docker logs [container_id]
+
+Go with your browser to: [ip_address_server]:9123
