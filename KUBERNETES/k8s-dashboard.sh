@@ -18,6 +18,8 @@ kubectl create serviceaccount dashboard -n kubernetes-dashboard
 
 #When you create a service account, a service account token also gets generated; this token is stored as a secret object.
 
+kubectl -n kubernetes-dashboard create token admin-user
+
 kubectl get secret $(kubectl get serviceaccount dashboard -o jsonpath="{.secrets[0].name}") -o jsonpath="{.data.token}" | base64 --decode
 
 kubectl create clusterrolebinding dashboard-admin -n kubernetes-dashboard  --clusterrole=cluster-admin  --serviceaccount=default:dashboard
