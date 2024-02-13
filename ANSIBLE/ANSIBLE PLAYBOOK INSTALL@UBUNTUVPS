@@ -72,6 +72,9 @@ Lakukan beberapa pengaturan / penyesuaian di dalam folder ansible-depen-new2021.
 dan untuk menjalankan lakukan :
 ansible-playbook [namafileyaml].yaml
 
+kalau muncul error berikut saat menjalankan ansible-playbook :
+fatal: [192.168.2.254]: FAILED! => {"msg": "Missing sudo password"}
+maka tambahkan : ansible-playbook [namafileyaml].yaml -bK
 
 *****Jika terjadi error tidak bisa apt-get update, lakukan langkah berikut :
 cd /var/lib/apt/lists/
