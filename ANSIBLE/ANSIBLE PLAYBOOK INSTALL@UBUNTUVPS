@@ -76,6 +76,16 @@ kalau muncul error berikut saat menjalankan ansible-playbook :
 fatal: [192.168.2.254]: FAILED! => {"msg": "Missing sudo password"}
 maka tambahkan : ansible-playbook [namafileyaml].yaml -bK
 
+ATAU
+---editing the sudoers :
+- On the remote server run: sudo visudo
+- We need to edit the line
+   %sudo   ALL=(ALL:ALL) ALL
+   and look like this:
+   %sudo  ALL=(ALL:ALL) NOPASSWD: ALL
+
+lalu coba kembali.
+
 *****Jika terjadi error tidak bisa apt-get update, lakukan langkah berikut :
 cd /var/lib/apt/lists/
 rm -fr *
