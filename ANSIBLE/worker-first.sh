@@ -2,11 +2,10 @@
 clear
 apt-get update
 apt install openssh-server
-sudo apt install -y software-properties-common
-sudo add-apt-repository --yes --update ppa:ansible/ansible
-clear
-sudo apt install -y ansible
-#apt-get install python3 ansible
+#sudo apt install -y software-properties-common
+#sudo add-apt-repository --yes --update ppa:ansible/ansible
+#clear
+#sudo apt install -y ansible
 clear
 
 echo -n "masukkan username baru-ansible: ";
