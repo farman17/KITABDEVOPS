@@ -1,7 +1,7 @@
 - name: Install Node_Exporter
   shell: curl -s https://api.github.com/repos/prometheus/node_exporter/releases/latest | grep browser_download_url | grep linux-amd64 | cut -d '"' -f 4 | wget -qi -
   args:
-      chdir: "/usr/local/bin"
+      chdir: "/usr/bin"
       warn: no
       
 
@@ -20,20 +20,21 @@
     # - /dir1
     # - /dir2
 
-- name: Extract archive.tgz into /usr/local/bin
+- name: Extract archive.tgz into /usr/bin
   ansible.builtin.unarchive:
-    src: /usr/local/bin/node_exporter-1.4.0.linux-amd64.tar.gz
-    dest: /usr/local/bin
+    src: /usr/bin/node_exporter-1.7.0.linux-amd64.tar.gz
+    dest: /usr/bin
     remote_src: yes
 
-- name: move node_exporter to folder
-  command: mv /usr/local/bin/node_exporter-1.4.0.linux-amd64/node_exporter /usr/local/bin/
+- name: move node_exporter to folder usr/bin
+  command: mv /usr/bin/node_exporter-1.7.0.linux-amd64/node_exporter /usr/bin/
+  
 
-- name: copy node_exporter to usr/bin
-  copy:
-    src: /usr/local/bin/node_exporter
-    dest: /usr/bin/
-    mode: '0755'
+#- name: copy node_exporter to usr/bin
+  #copy:
+    #src: /usr/local/bin/node_exporter
+    #dest: /usr/bin/
+    #mode: '0755'
 
 
 - name: Removing dir_cache & file_cache
@@ -41,8 +42,8 @@
       path: "{{ item }}"
       state: absent
   with_items:
-     - /usr/local/bin/node_exporter-1.4.0.linux-amd64.tar.gz
-     - /usr/local/bin/node_exporter-1.4.0.linux-amd64
+     - /usr/bin/node_exporter-1.7.0.linux-amd64.tar.gz
+     - /usr/bin/node_exporter-1.7.0.linux-amd64
 
 - name: Menambahkan file konfigurasi ke node_exporter.service
   copy:

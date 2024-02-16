@@ -27,24 +27,24 @@
 
 - name: Prometheus server-Extract archive.tgz 
   ansible.builtin.unarchive:
-    src: /tmp/prometheus/prometheus-2.39.1.linux-amd64.tar.gz
+    src: /tmp/prometheus/prometheus-2.49.1.linux-amd64.tar.gz
     dest: /tmp/prometheus
     remote_src: yes
 
 - name: Prometheus server-prometheus move to folder
-  command: mv /tmp/prometheus/prometheus-2.39.1.linux-amd64/prometheus /usr/local/bin/
+  command: mv /tmp/prometheus/prometheus-2.49.1.linux-amd64/prometheus /usr/local/bin/
 
 - name: Prometheus server-promtool move to folder
-  command: mv /tmp/prometheus/prometheus-2.39.1.linux-amd64/promtool /usr/local/bin/
+  command: mv /tmp/prometheus/prometheus-2.49.1.linux-amd64/promtool /usr/local/bin/
 
 - name: Prometheus server-prometheus.yml move to folder
-  command: mv /tmp/prometheus/prometheus-2.39.1.linux-amd64/prometheus.yml /etc/prometheus/
+  command: mv /tmp/prometheus/prometheus-2.49.1.linux-amd64/prometheus.yml /etc/prometheus/
 
 - name: Prometheus server-console move to folder
-  command: cp -rf /tmp/prometheus/prometheus-2.39.1.linux-amd64/consoles/ /etc/prometheus/
+  command: cp -rf /tmp/prometheus/prometheus-2.49.1.linux-amd64/consoles/ /etc/prometheus/
 
 - name: Prometheus server-console_libraries move to folder
-  command: cp -rf /tmp/prometheus/prometheus-2.39.1.linux-amd64/console_libraries/ /etc/prometheus/
+  command: cp -rf /tmp/prometheus/prometheus-2.49.1.linux-amd64/console_libraries/ /etc/prometheus/
 
 - name: copy config
   copy:
