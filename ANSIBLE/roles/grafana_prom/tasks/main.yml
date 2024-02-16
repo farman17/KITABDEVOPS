@@ -46,6 +46,14 @@
 - name: Prometheus server-console_libraries move to folder
   command: cp -rf /tmp/prometheus/prometheus-2.49.1.linux-amd64/console_libraries/ /etc/prometheus/
 
+- name: Removing dir_cache & file_cache
+  file:
+      path: "{{ item }}"
+      state: absent
+  with_items:
+     - /tmp/prometheus/prometheus-2.49.1.linux-amd64.tar.gz
+     - /tmp/prometheus/prometheus-2.49.1.linux-amd64
+
 - name: copy config
   copy:
     src: ../templates/prometheus.service
