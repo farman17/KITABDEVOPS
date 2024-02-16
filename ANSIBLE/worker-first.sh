@@ -22,6 +22,6 @@ cd /root/.ssh
 sudo chmod 400 id_rsa
 echo
 echo
-echo "add NOPASSWORDD to root........"
-echo "%sudo  ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers    
+#echo "add NOPASSWORDD to root........"
+#echo "%sudo  ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers    
 echo "DONE, THANKYOU......."
