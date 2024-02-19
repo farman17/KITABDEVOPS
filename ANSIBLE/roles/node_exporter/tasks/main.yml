@@ -28,7 +28,13 @@
 
 - name: move node_exporter to folder usr/bin
   command: mv /usr/bin/node_exporter-1.7.0.linux-amd64/node_exporter /usr/bin/
-  
+
+- name: Change file permission etc
+  file:
+    path: /usr/bin/
+    owner: root
+    group: root
+    mode: '0775'  
 
 #- name: copy node_exporter to usr/bin
   #copy:
