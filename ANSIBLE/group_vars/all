@@ -31,3 +31,11 @@ master_user: farman
 
 #password sudo
 vault_sudo_password: 123456Ab
+
+#domain and IP for node prometheus
+ip_node_prom_satu: 192.168.2.232  prom-192.168.2.232
+ip_node_prom_dua: 192.168.2.239  prom-192.168.2.239
+
+#domain for node prometheus
+domain_satu: prom-192.168.2.232
+domain_dua: prom-192.168.2.239

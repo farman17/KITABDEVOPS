@@ -1,3 +1,18 @@
+- name: Add a host for prometheus-node you can custom at group_vars
+  ansible.builtin.lineinfile:
+      path: /etc/hosts
+      line: "{{ ip_node_prom_dua }}"
+      create: yes
+
+- name: Add a host for prometheus-node you can custom at group_vars
+  lineinfile: 
+    dest: /etc/hosts
+    line: '{{ item }}'
+  with_items: 
+    - "{{ ip_node_prom_satu }}"
+    - "{{ ip_node_prom_dua }}"
+
+
 - name: Install Node_Exporter
   shell: curl -s https://api.github.com/repos/prometheus/node_exporter/releases/latest | grep browser_download_url | grep linux-amd64 | cut -d '"' -f 4 | wget -qi -
   args:
@@ -43,13 +58,13 @@
     #mode: '0755'
 
 
-- name: Removing dir_cache & file_cache
-  file:
-      path: "{{ item }}"
-      state: absent
-  with_items:
-     - /usr/bin/node_exporter-1.7.0.linux-amd64.tar.gz
-     - /usr/bin/node_exporter-1.7.0.linux-amd64
+#- name: Removing dir_cache & file_cache
+  #file:
+      #path: "{{ item }}"
+      #state: absent
+  #with_items:
+     #- /usr/bin/node_exporter-1.7.0.linux-amd64.tar.gz
+     #- /usr/bin/node_exporter-1.7.0.linux-amd64
 
 - name: Menambahkan file konfigurasi ke node_exporter.service
   copy:

@@ -54,10 +54,24 @@
      - /tmp/prometheus/prometheus-2.49.1.linux-amd64.tar.gz
      - /tmp/prometheus/prometheus-2.49.1.linux-amd64
 
-- name: copy config
+- name: copy config from templates/prometheus.service to /etc/systemd/system/
   copy:
     src: ../templates/prometheus.service
     dest: /etc/systemd/system/
+
+- name: copy config from templates/prometheus.yml to /etc/
+  copy:
+    src: ../templates/prometheus.yml
+    dest: /etc/prometheus/
+
+- name: Replace IP targets prometheus with IP in group_vars
+  ansible.builtin.lineinfile:
+    path: /etc/prometheus/prometheus.yml
+    search_string: "targets: ['localhost:9100','IP-satu:9100','IP-dua:9100']"
+    line: "    - targets: ['localhost:9100','{{ domain_satu }}:9100','{{ domain_dua }}:9100']"
+    #owner: root
+    #group: root
+    #mode: '0644'
 
 - name: Prometheus server-Change file permission etc
   file:
@@ -81,6 +95,11 @@
     name: prometheus
     state: started
     enabled: yes
+
+- name: Restart service prometheus, in all cases
+  ansible.builtin.service:
+    name: prometheus
+    state: restarted
 
 - name: DONE
   debug:
@@ -110,6 +129,7 @@
 - name: Grafana server-Repoadd
   apt_repository:
     repo: deb https://packages.grafana.com/oss/deb stable main
+    #repo: deb https://apt.grafana.com beta main
     state: present
     update_cache: yes
 
