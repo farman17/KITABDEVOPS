@@ -19,40 +19,47 @@
 - name: Prometheus server-Create rules
   shell: for i in rules rules.d files_sd; do sudo mkdir -p /etc/prometheus/${i}; done
 
-- name: Prometheus server-INSTALL
-  shell: curl -s https://api.github.com/repos/prometheus/prometheus/releases/latest | grep browser_download_url | grep linux-amd64 | cut -d '"' -f 4 | wget -qi -
-  args:
-      chdir: "/tmp/prometheus"
-      warn: no
+- name: update and install prometheus
+  apt:
+    name: prometheus
+    state: latest
+    update_cache: yes
+    cache_valid_time: 3600
 
-- name: Prometheus server-Extract archive.tgz 
-  ansible.builtin.unarchive:
-    src: /tmp/prometheus/prometheus-2.49.1.linux-amd64.tar.gz
-    dest: /tmp/prometheus
-    remote_src: yes
+#- name: Prometheus server-INSTALL
+  #shell: curl -s https://api.github.com/repos/prometheus/prometheus/releases/latest | grep browser_download_url | grep linux-amd64 | cut -d '"' -f 4 | wget -qi -
+  #args:
+      #chdir: "/tmp/prometheus"
+      #warn: no
 
-- name: Prometheus server-prometheus move to folder
-  command: mv /tmp/prometheus/prometheus-2.49.1.linux-amd64/prometheus /usr/local/bin/
+#- name: Prometheus server-Extract archive.tgz 
+  #ansible.builtin.unarchive:
+    #src: /tmp/prometheus/prometheus-2.49.1.linux-amd64.tar.gz
+    #dest: /tmp/prometheus
+    #remote_src: yes
 
-- name: Prometheus server-promtool move to folder
-  command: mv /tmp/prometheus/prometheus-2.49.1.linux-amd64/promtool /usr/local/bin/
+#- name: Prometheus server-prometheus move to folder
+  #command: mv /tmp/prometheus/prometheus-2.49.1.linux-amd64/prometheus /usr/local/bin/
 
-- name: Prometheus server-prometheus.yml move to folder
-  command: mv /tmp/prometheus/prometheus-2.49.1.linux-amd64/prometheus.yml /etc/prometheus/
+#- name: Prometheus server-promtool move to folder
+  #command: mv /tmp/prometheus/prometheus-2.49.1.linux-amd64/promtool /usr/local/bin/
 
-- name: Prometheus server-console move to folder
-  command: cp -rf /tmp/prometheus/prometheus-2.49.1.linux-amd64/consoles/ /etc/prometheus/
+#- name: Prometheus server-prometheus.yml move to folder
+  #command: mv /tmp/prometheus/prometheus-2.49.1.linux-amd64/prometheus.yml /etc/prometheus/
 
-- name: Prometheus server-console_libraries move to folder
-  command: cp -rf /tmp/prometheus/prometheus-2.49.1.linux-amd64/console_libraries/ /etc/prometheus/
+#- name: Prometheus server-console move to folder
+  #command: cp -rf /tmp/prometheus/prometheus-2.49.1.linux-amd64/consoles/ /etc/prometheus/
 
-- name: Removing dir_cache & file_cache
-  file:
-      path: "{{ item }}"
-      state: absent
-  with_items:
-     - /tmp/prometheus/prometheus-2.49.1.linux-amd64.tar.gz
-     - /tmp/prometheus/prometheus-2.49.1.linux-amd64
+#- name: Prometheus server-console_libraries move to folder
+  #command: cp -rf /tmp/prometheus/prometheus-2.49.1.linux-amd64/console_libraries/ /etc/prometheus/
+
+#- name: Removing dir_cache & file_cache
+  #file:
+      #path: "{{ item }}"
+      #state: absent
+  #with_items:
+     #- /tmp/prometheus/prometheus-2.49.1.linux-amd64.tar.gz
+     #- /tmp/prometheus/prometheus-2.49.1.linux-amd64
 
 - name: copy config from templates/prometheus.service to /etc/systemd/system/
   copy:
@@ -118,38 +125,3 @@
 - name: Print Prometheus version
   debug:
     msg: "Prometheus Version: {{ prometVersion.stdout }}"
-
-
-
-- name: Grafana server-Keyadd
-  apt_key:
-    url: "https://packages.grafana.com/gpg.key"
-    state: present
-
-- name: Grafana server-Repoadd
-  apt_repository:
-    repo: deb https://packages.grafana.com/oss/deb stable main
-    #repo: deb https://apt.grafana.com beta main
-    state: present
-    update_cache: yes
-
-- name: Grafana server-Install 
-  ansible.builtin.apt:
-    name: grafana
-    state: present
-
-- name: Reload daemon system
-  ansible.builtin.systemd:
-    daemon_reload: yes
-
-- name: service always started
-  systemd:
-    name: grafana-server
-    state: started
-    enabled: yes
-
-- name: DONE
-  debug:
-    msg: "The Grafana Server Installed successfully"
-
-

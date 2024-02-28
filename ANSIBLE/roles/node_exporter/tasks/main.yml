@@ -12,20 +12,29 @@
     - "{{ ip_node_prom_satu }}"
     - "{{ ip_node_prom_dua }}"
 
+- name: Download and extract Node Exporter
+  get_url:
+    url: "{{ download_version_node }}"
+    dest: "/tmp/node_exporter.tar.gz"
 
-- name: Install Node_Exporter
-  shell: curl -s https://api.github.com/repos/prometheus/node_exporter/releases/latest | grep browser_download_url | grep linux-amd64 | cut -d '"' -f 4 | wget -qi -
-  args:
-      chdir: "/usr/bin"
-      warn: no
-      
+- name: Extract Node Exporter to Folder Opt
+  ansible.builtin.unarchive:
+    src: "/tmp/node_exporter.tar.gz"
+    dest: "/opt/"
+    remote_src: yes
 
-#- name: Archives the files and folders
- # become: yes
- # archive:
-  #  path: /usr/local/bin/*
-   # dest: /usr/local/bin/node_exporter-1.4.0.linux-amd64.tar.gz
-   # format: tar
+#- name: Install Node_Exporter
+ # shell: curl -s https://github.com/prometheus/prometheus/releases/download/v2.3.2/prometheus-2.3.2.linux-amd64.tar.gz | grep browser_download_url | grep linux-amd64 | cut -d '"' -f 4 | wget -qi -
+  #args:
+   #   chdir: "/usr/local/bin"
+    #  warn: no
+
+
+#- name: Unarchive a file that is already on the remote machine
+ # ansible.builtin.unarchive:
+  #  src: /usr/local/bin/node_exporter-1.7.0.linux-amd64
+   # dest: /usr/local/bin
+    #remote_src: yes      
 
   #- name: Creating /dir1 & /dir2
    # file:
@@ -35,14 +44,31 @@
     # - /dir1
     # - /dir2
 
-- name: Extract archive.tgz into /usr/bin
-  ansible.builtin.unarchive:
-    src: /usr/bin/node_exporter-1.7.0.linux-amd64.tar.gz
-    dest: /usr/bin
-    remote_src: yes
+
+#- name: UNZIPPING the files
+ # unarchive:
+  #  src: "/usr/local/bin/"
+   # dest: "/usr/local/bin/node_exporter/"
+    #copy: no
+  #with_fileglob:
+  #- "/usr/local/bin/*.tar.gz"
+
+#- name: Extract archive.tgz into /usr/bin
+  #ansible.builtin.unarchive:
+   # src: /usr/bin/ 
+    #dest: /usr/bin/
+    #remote_src: yes
+  #with_fileglob: "node_exporter-*"
 
 - name: move node_exporter to folder usr/bin
-  command: mv /usr/bin/node_exporter-1.7.0.linux-amd64/node_exporter /usr/bin/
+  command: mv /opt/node_exporter-1.7.0.linux-amd64/node_exporter /usr/bin/
+
+- name: copy node_exporter to usr/local/bin
+  copy:
+    src: /usr/bin/node_exporter
+    dest: /usr/local/bin/
+    mode: '0755'
+    remote_src: yes
 
 - name: Change file permission etc
   file:
