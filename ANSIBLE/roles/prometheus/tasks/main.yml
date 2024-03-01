@@ -75,7 +75,7 @@
   ansible.builtin.lineinfile:
     path: /etc/prometheus/prometheus.yml
     search_string: "targets: ['localhost:9100','IP-satu:9100','IP-dua:9100']"
-    line: "    - targets: ['localhost:9100','{{ domain_satu }}:9100','{{ domain_dua }}:9100']"
+    line: "    - targets: ['localhost:9100','{{ domain_satu }}:9100','{{ domain_dua }}:9100','{{ domain_tiga }}:9100']"
     #owner: root
     #group: root
     #mode: '0644'

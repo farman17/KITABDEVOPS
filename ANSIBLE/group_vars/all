@@ -17,11 +17,11 @@ port_jenkins: 9123
 
 #COROSYNC CONFIG
 password_hacluster: farman123
-ip_node_cluster1: 192.168.33.11
-ip_node_cluster2: 192.168.33.13
-ip_float: 192.168.33.12
-host_node_cluster1:  node1.bang.jago-11
-host_node_cluster2:  node2.bang.jago-13
+ip_node_cluster1: 192.168.2.255
+ip_node_cluster2: 192.168.2.218
+ip_float: 192.168.2.200
+host_node_cluster1:  coroclustersatu-255
+host_node_cluster2:  coroclusterdua-218
 
 #REDIS CONFIG
 pass_redis: farman123
@@ -33,9 +33,12 @@ master_user: farman
 vault_sudo_password: 123456Ab
 
 #domain and IP for node prometheus
-ip_node_prom_satu: 192.168.2.232  prom-192.168.2.232
-ip_node_prom_dua: 192.168.2.239  prom-192.168.2.239
+ip_node_prom_satu: 192.168.2.216  prom-192.168.2.216
+ip_node_prom_dua: 192.168.2.238   prom-192.168.2.238
+ip_node_prom_tiga: 192.168.2.245  prom-192.168.2.245
+domain_satu: prom-192.168.2.216
+domain_dua: prom-192.168.2.238
+domain_tiga: prom-192.168.2.245
 
-#domain for node prometheus
-domain_satu: prom-192.168.2.232
-domain_dua: prom-192.168.2.239
+#node_exporter
+download_version_node: https://github.com/prometheus/node_exporter/releases/download/v1.7.0/node_exporter-1.7.0.linux-amd64.tar.gz

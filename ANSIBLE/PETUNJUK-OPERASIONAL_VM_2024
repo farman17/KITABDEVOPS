@@ -1,0 +1,37 @@
+SETTING VM :
+- setting network di vrtual box, ubah jadi bridge adapter
+- Di server client atau bastion tidak perlu install apa2 untuk ansible cukup :
+- sudo apt install openssh-server di mesin VM
+- ganti port : /etc/ssh/ lalu nano sshd_config
+- systemctl restart sshd
+- cek ssh nya, systemctl status sshd
+- check apakah sudah terganti port sshnya dengan perintah netstat -plntu
+- monggo mas dicobakeun
+- ssh -p [port] user@ip
+- setelah masuk di user misal slave01, lakukan ssh-keygen -t rsa
+- SELESAI
+- jangan lupa lakukan copy-id di server master,, ssh-copy-id slave01@192.168.2.224 
+----------------------------------------------------------------------------
+
+ssh -p 2018 tlkm-master@192.168.2.228
+master: 192.168.2.228/23
+user-ansible: tlkm-master
+domain: master
+
+ssh slave01@192.168.2.224
+slave : 192.168.2.224/23
+user-ansible: slave01
+domain: slave01
+
+ssh slave02@192.168.2.225
+slave : 192.168.2.225/23
+user-ansible: slave02
+domain: slave02
+
+ssh slave03@192.168.2.245
+slave : 192.168.2.245/23
+user-ansible: slave03
+domain: slave03
+
+
+grafana Dashboard ID : 13609,1860 

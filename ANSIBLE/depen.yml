@@ -1,19 +1,20 @@
 - name: ANSIBLE-COLONYLABS@2022
-  hosts: slavedua
+  hosts: slave02
   remote_user: testing3
   become: yes
   become_method: sudo
   vars:
     ansible_become_pass: "{{ vault_sudo_password }}"
   roles:
-    - update
-    - dependen
+    #- update
+    #- dependen
     #- nginx
     #- docker
-    #- corosync-cluster
+    - corosync-cluster
     #- corosync-client
-    - node_exporter
-    - grafana_prom
+    #- node_exporter
+    #- prometheus
+    #- grafana
     #- harbor
     #- k3s-kubernetes
     #- awx-ansible
