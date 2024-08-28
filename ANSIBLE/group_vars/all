@@ -30,7 +30,7 @@ ip_nodes_redis_replica: 192.168.33.11
 master_user: farman
 
 #password sudo
-vault_sudo_password: 123456Ab
+vault_sudo_password: worker123
 
 #domain and IP for node prometheus
 ip_node_prom_satu: 192.168.2.216  prom-192.168.2.216

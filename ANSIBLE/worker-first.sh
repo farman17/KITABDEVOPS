@@ -1,6 +1,7 @@
 #!/bin/bash
 clear
 echo "UPDATE SYSTEM......."
+figlet DEVOPS
 apt-get update
 clear
 echo "install open ssh untuk remote"
